@@ -15,22 +15,23 @@ import java.time.Duration;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @Testcontainers
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK,
-        classes = DemoApplication.class)
+@SpringBootTest(
+        webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
+        classes = DemoApplication.class
+)
 @ActiveProfiles("test")
 public class BaseIntegrationTest {
     private static final String ELASTICSEARCH_VERSION = "7.17.8";
 
     @Container
-    public static ElasticsearchContainer container = new ElasticsearchContainer(DockerImageName
+    public static ElasticsearchContainer container = new CustomElasticSearchContainer(DockerImageName
             .parse("docker.elastic.co/elasticsearch/elasticsearch")
-            .withTag(ELASTICSEARCH_VERSION)).withStartupTimeout(Duration.ofMinutes(5)).withExposedPorts(9200);
+            .withTag(ELASTICSEARCH_VERSION))
+            .withStartupTimeout(Duration.ofMinutes(2));
 
     @BeforeAll
     static void setUp() {
         container.start();
-        System.setProperty("elasticsearch.host", container.getHost());
-        System.setProperty("elasticsearch.port", String.valueOf(container.getMappedPort(9200)));
         assertTrue(container.isRunning());
     }
 
@@ -38,6 +39,7 @@ public class BaseIntegrationTest {
     static void destroy() {
         container.stop();
     }
+
     @Test
     public void loadContext(){
 
