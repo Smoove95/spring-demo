@@ -1,6 +1,6 @@
 package com.example.demo.restservice.utils;
 
-import com.example.demo.restservice.User;
+import com.example.demo.restservice.models.User;
 import com.example.demo.restservice.repository.UserDocument;
 import org.springframework.stereotype.Component;
 

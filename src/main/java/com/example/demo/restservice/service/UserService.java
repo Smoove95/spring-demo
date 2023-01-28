@@ -1,15 +1,11 @@
-package com.example.demo.restservice.userservice;
+package com.example.demo.restservice.service;
 
-import com.example.demo.restservice.User;
 import com.example.demo.restservice.repository.UserDocument;
 import com.example.demo.restservice.repository.UserRepository;
-import com.example.demo.restservice.utils.EntityMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
-
-import java.util.Optional;
 
 @Service
 public class UserService {
@@ -28,21 +24,20 @@ public class UserService {
 
     }
 
-    public String deleteUser(String id) {
+    public void deleteUser(String id) {
         userRepository.deleteById(id);
-        return "Deleted user with id: " + id;
     }
 
-    public UserDocument editUser(String id, User user) {
+    public UserDocument editUser(String id, UserDocument user) {
         UserDocument userDocument = userRepository.findById(id).orElseThrow(() -> new HttpClientErrorException(HttpStatus.NOT_FOUND));
-        if(!StringUtils.isEmpty(user.firstName())){
-            userDocument.setFirstName(user.firstName());
+        if(!StringUtils.isEmpty(user.getFirstName())){
+            userDocument.setFirstName(user.getFirstName());
         }
-        if(!StringUtils.isEmpty(user.lastName())){
-            userDocument.setLastName(user.lastName());
+        if(!StringUtils.isEmpty(user.getLastName())){
+            userDocument.setLastName(user.getLastName());
         }
-        if(!StringUtils.isEmpty(user.emailAddress())){
-            userDocument.setEmailAddress(user.emailAddress());
+        if(!StringUtils.isEmpty(user.getEmailAddress())){
+            userDocument.setEmailAddress(user.getEmailAddress());
         }
         return userRepository.save(userDocument);
     }
