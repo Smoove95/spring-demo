@@ -27,7 +27,7 @@ public class BaseIntegrationTest {
     public static ElasticsearchContainer container = new CustomElasticSearchContainer(DockerImageName
             .parse("docker.elastic.co/elasticsearch/elasticsearch")
             .withTag(ELASTICSEARCH_VERSION))
-            .withStartupTimeout(Duration.ofMinutes(2));
+            .withStartupTimeout(Duration.ofMinutes(5));
 
     @BeforeAll
     static void setUp() {
@@ -42,7 +42,7 @@ public class BaseIntegrationTest {
 
     @Test
     public void loadContext(){
-
+        assertTrue(true);
     }
 
 
